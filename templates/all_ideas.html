@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Оставленные заявки</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}" type="image/png">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<header class="p-3 text-bg-white shadow">
+    <div class="container-fluid">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="0" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a class="navbar-brand" href="https://s22.amsvlad.ru/"><img
+                        src="{{ url_for('static', filename='logo.png') }}" href="https://s22.amsvlad.ru/" height="40px"
+                    width="45px"> </img>МБОУ СОШ №22</a></li>
+            </ul>
+            <div class="text-end">
+                <a class="btn btn-outline-warning" href="/user_ideas/{{ us.user_id }}">Мои идеи</a>
+                <button type="button" class="btn btn-outline-dark me-2">{{ us.username }}</button>
+            </div>
+        </div>
+    </div>
+</header>
+<p>
+<script>
+    function inp(id) {
+        var a = document.getElementById(id);
+        a.parentNode.removeChild(a);
+        var par = document.getElementById("par" + id);
+        var input = document.createElement("input");
+        input.type = "text";
+        input.className = "form-control";
+        input.autofocus = true;
+        input.required = true;
+        input.name = "ans" + id;
+        input.id = "inp" + id;
+        input.placeholder = "Введите ваш ответ!"
+        par.appendChild(input);
+        var btn = document.createElement("button");
+        btn.className = "btn btn-warning";
+        btn.textContent = "Отправить";
+        btn.value = id;
+        btn.name = "answer";
+        par.appendChild(btn);
+    }
+</script>
+
+</p>
+<div class="container">
+    <div class="row justify-content-center"><div class="col-md-5 rounded-3 shadow" align="center"><h3 style="color:#7777FF">Все идеи и предложения</h3></div></div>
+</div>
+<br>
+<form action="/all_ideas/{{ us.user_id }}/" method="post">
+{% for idea in ideas%}
+<div class="container">
+    <div class="row"><h1></h1></div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-4 shadow">
+                    <div class="modal-body p-5">
+                        <h4 class="fw-bold mb-0">{{ idea[2] }}</h4>
+                        <ul class="d-grid gap-4 my-5 list-unstyled small">
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48">
+                                    <use xlink:href="#bookmark-star"></use>
+                                </svg>
+                                <div>
+                                    <h6 class="mb-0">{{ idea[1] }}</h6>
+                                </div>
+                            </li>
+                        </ul>
+                        {% if us.adm %}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6" id="par{{ idea[0] }}">
+                                    <button class="btn btn-warning" id="{{ idea[0] }}" value="{{ idea[0] }}" onclick="inp('{{ idea[0] }}')">Отправить</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</form>
+</body>
+</html>

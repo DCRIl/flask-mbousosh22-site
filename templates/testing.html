@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function inp(){
+        var a = document.getElementById("btn");
+        a.parentNode.removeChild(a);
+        var input = document.createElement("input");
+        var par = document.getElementById("par");
+        input.type = "text";
+        input.className = "css-class-name"; // set the CSS class
+        par.appendChild(input); // put it into the DOM
+    }
+</script>
+<div id="par">
+    <button id="btn" onclick="inp()">JavaCode</button>
+</div>
+</body>
+</html>
